@@ -12,7 +12,6 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Enquiry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -41,6 +40,7 @@ class PageController extends Controller
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/contact", name="contact")
+     * @Method({"GET", "POST"})
      */
     public function contactAction(Request $request)
     {
@@ -50,7 +50,24 @@ class PageController extends Controller
 
 
         if ($form->isValid()) {
+            echo 'email ' . $enquiry->getEmail();
             /* send mail */
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Contact enquiry from symblog')
+                ->setFrom('noreply@gevapo.be')
+        //        ->setTo(array('geert@geertvanpoucke.be', $enquiry->getEmail()))
+                ->setTo($enquiry->getEmail())
+                ->setBCC('geert@geertvanpoucke.be')
+                ->setBody(
+                    $this->renderView(
+                        'pages/contactEmail.txt.twig',
+                        array(
+                            'enquiry' => $enquiry
+                        )
+                    ), 'text/html'
+                );
+            $this->get('mailer')->send($message);
+
 
             /* redirect */
             return $this->redirectToRoute('contact');

@@ -9,10 +9,18 @@
 
     <p>Want to contact symblog?</p>
 
+    {#
     {{ form_start(form) }}
+    #}
+    <form action="{{ path('contact') }}" method="post" class="blogger" enctype="multipart/form-data">
+    {{ form_errors(form) }}
 
+    {{ form_row(form.name) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.subject) }}
+    {{ form_row(form.body) }}
 
-    {{ form_widget(form.name) }}
+    <input type="submit" value="Submit" />
 
-    {{ form_widget(form) }}
+    {{ form_end(form) }}
 {% endblock %}

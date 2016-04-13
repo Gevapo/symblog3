@@ -9,15 +9,28 @@
 namespace AppBundle\Entity;
 
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Enquiry
 {
 
     protected $name;
-
+    /**
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = true,
+     *     checkHost = true
+     * )
+     */
     protected $email;
 
     protected $subject;
-
+    /**
+     * @Assert\Length(
+     *     max = "255",
+     *     maxMessage = "Your message cannot be longer than {{ limit }} characters"
+     * )
+     */
     protected $body;
 
     public function getName()

@@ -1,0 +1,10 @@
+A contact enquiry was made by {{ enquiry.name }}
+<br>at {{ "now" | date("Y-m-d H:i") }}.
+<br>
+<br>Reply-To: {{ enquiry.email }}
+<br>
+<br>Subject: {{ enquiry.subject }}
+<br>
+<br>Body:
+<br>
+<br>{{ enquiry.body }}
