@@ -25,7 +25,22 @@ class PageController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('pages/index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+
+        /* find all */
+        //$blogs = $em->getRepository('AppBundle:Blog')->findAll();
+
+        /*  */
+        //$query = $em->createQuery('SELECT b FROM AppBundle:Blog b ORDER BY b.created DESC');
+        //$blogs = $query->getResult();
+
+        /*  */
+        $blogs = $em->getRepository('AppBundle:Blog')
+                    ->getLatestBlogs();
+
+        return $this->render('pages/index.html.twig', array(
+            'blogs' => $blogs
+        ));
     }
 
     /**
